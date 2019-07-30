@@ -4,6 +4,7 @@ import json
 
 dict_place_len = {}
 dict_place_line = {}
+files = [ele for ele in os.listdir('/scratch/dong.r/Dataset/DTA/kern/') if ele.startswith('part-')]
 for fn in files:
 	with open(fn, encoding='utf-8') as f_:
 		for line in f_:
@@ -15,4 +16,6 @@ for fn in files:
 			if nline > 0:
 				dict_place_line[cur_place] = dict_place_line.get(cur_place, 0) + nline
 				dict_place_len[cur_place] = dict_place_len.get(cur_place, 0) + sum([len(ele) for ele in lines])
-		
+
+
+
