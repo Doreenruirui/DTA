@@ -14,20 +14,21 @@ with open(img_file, encoding='utf-8') as f_:
     dict_lang = {}
     for line in f_:
         nline += 1
-        print(nline)
+        # print(nline)
         font, image = line.strip().split('\t')
         if font == 'Fraktur' or font == 'Frakur':
-            files.append(('frk', image))
+            continue
+            # files.append(('frk', image))
         else:
             book = image.split('/')[2]
             if book not in dict_lang:
-    
                 with open(pjoin(data_folder, 'core_xml', book + '.TEI-P5.xml'), encoding='utf-8') as f_:
                     content = f_.read()
                     cur_xml = BeautifulSoup(content, 'xml')
                     lang_list = cur_xml.find_all('language')
                     cur_lang = lang_list[0]["ident"]
                     dict_lang[book] = cur_lang
+                    print(book, font, cur_lang)
             else:
                 cur_lang = dict_lang[book]
             files.append((cur_lang, image))
@@ -37,7 +38,7 @@ print(nfile)
 
 chunk_size = 1000
 nchunk = int(np.ceil(nfile/chunk_size))
-
+#
 for i in range(nchunk):
     start = i * chunk_size
     end = (i+1) * chunk_size

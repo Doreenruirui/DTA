@@ -95,9 +95,8 @@ def count_images():
             f_.write(book + '\t' + str(dict_book2count[book]) + '\n')
 
 
-
 # def get_proportions_of_mix_language():
-#
+
 
 # def get_proportion_of_mix_font():
 # count_images()
