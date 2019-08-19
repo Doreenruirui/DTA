@@ -14,11 +14,20 @@ def books():
 
 def book2century():
     dict_books = {}
+    dict_book2font = {}
+    fonts = []
+    with open(pjoin(data_folder, 'list_font'), encoding='utf-8') as f_:
+        for line in f_:
+            fonts.append(line.strip())
     with open(pjoin(data_folder, 'list_urls'), encoding='utf-8') as f_:
+        i = 0
         for line in f_:
             century, book_title, text = line.strip().split('\t')
             dict_books[book_title] = century
-    return dict_books
+            dict_book2font[book_title] = fonts[i]
+            i += 1
+    return dict_books, dict_book2font
+
 
 
 def book2count():
@@ -29,3 +38,12 @@ def book2count():
             count = int(count)
             dict_book2count[book] = count
     return dict_book2count
+
+
+def book2lang():
+    dict_book2lang = {}
+    with open(pjoin(data_folder, 'list_lang'), encoding='utf-8') as f_:
+        for line in f_:
+            book, lang = line.strip().split('\t')
+            dict_book2lang[book] = lang
+    return dict_book2lang

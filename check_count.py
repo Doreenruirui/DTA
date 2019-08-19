@@ -1,5 +1,5 @@
-from common import book2count, book2century
-from info import *
+from DTA.common import book2count, book2century
+from DTA.info import *
 import os
 from os.path import join as pjoin
 

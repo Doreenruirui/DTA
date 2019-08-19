@@ -29,37 +29,37 @@ with open(img_file, encoding='utf-8') as f_:
                     cur_lang = lang_list[0]["ident"]
                     dict_lang[book] = cur_lang
                     print(book, font, cur_lang)
-            else:
-                cur_lang = dict_lang[book]
-            files.append((cur_lang, image))
+            # else:
+            #     cur_lang = dict_lang[book]
+            # files.append((cur_lang, image))
         
-nfile = len(files)
-print(nfile)
-
-chunk_size = 1000
-nchunk = int(np.ceil(nfile/chunk_size))
+# nfile = len(files)
+# print(nfile)
 #
-for i in range(nchunk):
-    start = i * chunk_size
-    end = (i+1) * chunk_size
-    with open('scripts/ocr/run.sbatch.%d' % i, 'w', encoding='utf-8') as f_:
-        f_.write('#!/bin/bash\n')
-        f_.write('#SBATCH --job-name=%d\n' % i)
-        f_.write('#SBATCH --output=/home/dong.r/DTA/log/out.ocr.tess.%d\n' % i)
-        f_.write('#SBATCH --error=/home/dong.r/DTA/log/err.ocr.tess.%d\n' % i)
-        #f_.write('#SBATCH --exclusive\n')
-        f_.write('#SBATCH --partition=general\n')
-        f_.write('#SBATCH -N 1\n')
-        f_.write('work=/home/dong.r/DTA\n')
-        f_.write('cd $work\n')
-        f_.write('source ~/.bash_tess\n')
-        for j in range(start, end):
-            ft, img = files[j]
-            items = img.split('/')
-            book=items[2]
-            img_prefix = items[3][:-len('.png')]
-            hocr_folder = pjoin(data_folder, 'core_hocr', book)
-            if not os.path.exists(hocr_folder):
-                os.makedirs(hocr_folder)
-
-            f_.write('tesseract %s %s -l %s hocr\n' % (data_folder + '/' + img, data_folder + '/core_hocr/' + book + '/' + img_prefix, ft))
+# chunk_size = 1000
+# nchunk = int(np.ceil(nfile/chunk_size))
+# #
+# for i in range(nchunk):
+#     start = i * chunk_size
+#     end = (i+1) * chunk_size
+#     with open('scripts/ocr/run.sbatch.%d' % i, 'w', encoding='utf-8') as f_:
+#         f_.write('#!/bin/bash\n')
+#         f_.write('#SBATCH --job-name=%d\n' % i)
+#         f_.write('#SBATCH --output=/home/dong.r/DTA/log/out.ocr.tess.%d\n' % i)
+#         f_.write('#SBATCH --error=/home/dong.r/DTA/log/err.ocr.tess.%d\n' % i)
+#         #f_.write('#SBATCH --exclusive\n')
+#         f_.write('#SBATCH --partition=general\n')
+#         f_.write('#SBATCH -N 1\n')
+#         f_.write('work=/home/dong.r/DTA\n')
+#         f_.write('cd $work\n')
+#         f_.write('source ~/.bash_tess\n')
+#         for j in range(start, end):
+#             ft, img = files[j]
+#             items = img.split('/')
+#             book=items[2]
+#             img_prefix = items[3][:-len('.png')]
+#             hocr_folder = pjoin(data_folder, 'core_hocr', book)
+#             if not os.path.exists(hocr_folder):
+#                 os.makedirs(hocr_folder)
+#
+#             f_.write('tesseract %s %s -l %s hocr\n' % (data_folder + '/' + img, data_folder + '/core_hocr/' + book + '/' + img_prefix, ft))

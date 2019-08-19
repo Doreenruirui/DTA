@@ -1,8 +1,8 @@
 from os.path import join as pjoin
 import requests
 from bs4 import BeautifulSoup
-from info import *
-from common import books
+from DTA.info import *
+from DTA.common import books
 
 
 def get_font_info():
@@ -19,23 +19,6 @@ def get_font_info():
             for i in range(num_tds):
                 if all_tds[i].text == 'Schriftart:':
                     f_out.write(all_tds[i+1].text + '\n')
-                    break
-
-
-def get_page_count_info():
-    book_no = 0
-    with open(pjoin(data_folder, 'list_page_count_new'),  'w', encoding='utf-8') as f_out:
-        for century, book_title, text in books():
-            book_no += 1
-            print(book_no)
-            cur_book_info_url = book_info_url % book_title
-            content = requests.get(cur_book_info_url).text
-            cur_html = BeautifulSoup(content, 'html')
-            all_tds = cur_html.body.find_all('td')
-            num_tds = len(all_tds)
-            for i in range(num_tds):
-                if all_tds[i].text == 'Scans:':
-                    f_out.write(century + '\t' + book_title + '\t' + all_tds[i+1].text + '\n')
                     break
 
 
@@ -95,10 +78,9 @@ def count_images():
             f_.write(book + '\t' + str(dict_book2count[book]) + '\n')
 
 
-# def get_proportions_of_mix_language():
 
+# def get_proportions_of_mix_language():
+#
 
 # def get_proportion_of_mix_font():
 # count_images()
-get_font_info()
-# get_page_count_info()

@@ -1,7 +1,7 @@
 import os
 from os.path import join as pjoin
-from info import *
-from common import book2century
+from DTA.info import *
+from DTA.common import book2century
 from distutils.dir_util import copy_tree
 from shutil import copyfile
 
